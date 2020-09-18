@@ -5,7 +5,8 @@
   "scripts": {
     "dev": "NODE_ENV=development nodemon ./bin/www --ignore 'logs/'",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www --ignore 'logs/'",
-    "start": "NODE_ENV=production node ./bin/www"
+    "start": "NODE_ENV=production node ./bin/www",
+    "seed": "sequelize-cli db:seed:all"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -25,6 +26,7 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "sequelize-cli": "^6.2.0"
   }
 }
