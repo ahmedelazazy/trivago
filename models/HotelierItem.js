@@ -39,6 +39,11 @@ module.exports = db.define("hotelier_item", {
       max: 1000,
     },
   },
+  price: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
   availability: {
     type: DataTypes.INTEGER,
     allowNull: false,
