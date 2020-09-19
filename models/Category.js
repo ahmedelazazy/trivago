@@ -1,1 +1,1 @@
-module.exports = ["hotel", "alternative", "hostel", "lodge", "resort", "guesthouse"];
+module.exports = ["hotel", "alternative", "hostel", "lodge", "resort", "guest-house"];
