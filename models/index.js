@@ -6,8 +6,7 @@ const Category = require("./Category");
 Hotelier.hasMany(HotelierItem);
 HotelierItem.belongsTo(Hotelier);
 
-Location.belongsTo(HotelierItem);
-HotelierItem.hasOne(Location);
+HotelierItem.belongsTo(Location, { onDelete: "cascade" });
 
 module.exports = {
   Hotelier,
