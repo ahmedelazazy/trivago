@@ -6,7 +6,8 @@
     "dev": "NODE_ENV=development nodemon ./bin/www --ignore 'logs/'",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www --ignore 'logs/'",
     "start": "NODE_ENV=production node ./bin/www",
-    "seed": "sequelize-cli db:seed:all"
+    "seed": "sequelize-cli db:seed:all",
+    "test": "jest"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -26,7 +27,14 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "faker": "^5.1.0",
+    "jest": "^26.4.2",
     "nodemon": "^2.0.4",
-    "sequelize-cli": "^6.2.0"
+    "sequelize-cli": "^6.2.0",
+    "sqlite3": "^5.0.0",
+    "superagent": "^6.1.0",
+    "supertest": "^4.0.2"
   }
 }

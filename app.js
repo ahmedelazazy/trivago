@@ -26,14 +26,15 @@ app.use(cookieParser());
 
 app.use("/", indexRouter);
 
-if (process.env.DB_SYNC === "true") {
-  db.sync({ force: true })
-    .then(() => logger.info("DB Synced"))
+if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production") {
+  if (process.env.DB_SYNC === "true") {
+    db.sync({ alter: true })
+      .then(() => logger.info("DB Synced"))
+      .catch((error) => logger.error(error));
+  }
+  db.authenticate()
+    .then(() => logger.info("Connection has been established successfully."))
     .catch((error) => logger.error(error));
 }
-
-db.authenticate()
-  .then(() => logger.info("Connection has been established successfully."))
-  .catch((error) => logger.error(error));
 
 module.exports = app;
