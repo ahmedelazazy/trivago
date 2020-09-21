@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - NODE_ENV=development
+    ports:
+      - 8888:${PORT}
+    depends_on:
+      - postgres
+    links:
+      - postgres
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    command: npm run dev
+    environment:
+      DB_USERNAME: trivago
+      DB_PASSWORD: trivago
+      DB_NAME: trivago
+      DB_PORT: 5432
+      DB_HOST: postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_USER: trivago
+      POSTGRES_PASSWORD: trivago
+      POSTGRES_DB: trivago
