@@ -1,5 +1,3 @@
-"use strict";
-
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.bulkInsert("hotelier_items", [
@@ -59,6 +57,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    return queryInterface.bulkDelete("Hoteliers", null, {});
+    return queryInterface.bulkDelete("hotelier_items", null, {});
   },
 };
