@@ -1,5 +1,5 @@
-const Hotelier = require("../models/Hotelier");
 const logger = require("../config/winston");
+const Hotelier = require("../models/Hotelier");
 const HotelierItem = require("../models/HotelierItem");
 
 const getAll = async (req, res) => {

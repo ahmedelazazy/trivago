@@ -1,7 +1,7 @@
 const { Sequelize, DataTypes } = require("sequelize");
+
 const db = require("../config/db");
 const categories = require("./Category");
-const Location = require("./Location");
 
 module.exports = db.define("hotelier_item", {
   name: {

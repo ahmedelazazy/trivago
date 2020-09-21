@@ -1,6 +1,6 @@
+const logger = require("../config/winston");
 const HotelierItem = require("../models/HotelierItem");
 const Location = require("../models/Location");
-const logger = require("../config/winston");
 
 const getOne = async (req, res) => {
   try {
