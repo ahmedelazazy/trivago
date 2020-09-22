@@ -10,5 +10,5 @@ module.exports = {
     },
     basePath: "/api/v1/",
   },
-  apis: ["./routes/*.js"],
+  apis: ["./routes/**/*.js"],
 };
