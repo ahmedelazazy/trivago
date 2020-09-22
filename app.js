@@ -11,14 +11,12 @@ const swaggerUi = require("swagger-ui-express");
 
 const db = require("./config/db");
 const models = require("./models");
-const swaggerOptions = require("./config/swagger");
-const { notFound, catchAll } = require("./middlewares/errorHandler");
+const { notFound, catchAll } = require("./middleware/errorHandler");
 
 const logger = require("./config/winston");
 const indexRouter = require("./routes/index");
 
 const app = express();
-const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.set("trust proxy", true);
 app.use(cors());
@@ -30,7 +28,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static("public"));
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+const swaggerDocument = require("./swagger.json");
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/api/v1", indexRouter);
 
 app.use(notFound);

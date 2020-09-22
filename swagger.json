@@ -1,0 +1,375 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "API to list hoteliers and list/add/edit/delete items of given hotelier",
+    "version": "1",
+    "title": "Trivago Hotelier API",
+    "contact": {
+      "name": "Ahmed Elazazy",
+      "email": "contact@ahmedelazazy.com"
+    }
+  },
+  "basePath": "/api/v1",
+  "paths": {
+    "/hoteliers": {
+      "get": {
+        "tags": [
+          "Hotelier"
+        ],
+        "summary": "Get all hoteliers",
+        "description": "Use to get all hoteliers",
+        "responses": {
+          "200": {
+            "description": "List of all hoteliers",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/HotelierItem"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hoteliers/{id}": {
+      "get": {
+        "tags": [
+          "Hotelier"
+        ],
+        "summary": "Get all hotelier items of a given hotelier",
+        "description": "Use to get all hotelier items of the given hotelier id",
+        "operationId": "getPetById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of hotelier",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "List of all hoteliers items of given hotelier",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/HotelierItem"
+            }
+          },
+          "400": {
+            "description": "Given input has invalid format"
+          },
+          "404": {
+            "description": "Given hotelier id is not found"
+          }
+        }
+      }
+    },
+    "/hoteliers/items/{id}": {
+      "get": {
+        "tags": [
+          "Hotelier Item"
+        ],
+        "summary": "Get details of given hotelier item",
+        "description": "Use to get details of the given hotelier item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of hotelier item",
+            "required": true,
+            "type": "integer"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the given hotelier item",
+            "schema": {
+              "type": "object",
+              "$ref": "#/definitions/HotelierItem"
+            }
+          },
+          "400": {
+            "description": "Given input has invalid format"
+          },
+          "404": {
+            "description": "Given hotelier item id is not found"
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Hotelier Item"
+        ],
+        "summary": "Update existing hotelier item",
+        "description": "Use to update existing hotelier item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of hotelier item",
+            "required": true,
+            "type": "integer"
+          },
+          {
+            "name": "hotelierItem",
+            "in": "body",
+            "description": "Hotelier item object to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HotelierItem"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Details of the given hotelier item",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Updated object id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Given input has invalid format"
+          },
+          "404": {
+            "description": "Given hotelier item id is not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Hotelier Item"
+        ],
+        "summary": "Delete existing hotelier item",
+        "description": "Use to delete existing hotelier item",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of hotelier item",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The hotelier item is deleted",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Deleted object id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Given input has invalid format"
+          },
+          "404": {
+            "description": "Given hotelier item id is not found"
+          }
+        }
+      }
+    },
+    "/hoteliers/items": {
+      "post": {
+        "tags": [
+          "Hotelier Item"
+        ],
+        "summary": "Create new hotelier item",
+        "description": "Use to create new hotelier item",
+        "parameters": [
+          {
+            "name": "hotelierItem",
+            "in": "body",
+            "description": "Hotelier item object to be saved",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/HotelierItem"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "The hotelier item is created",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Created object id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Given input has invalid format"
+          }
+        }
+      }
+    },
+    "/hoteliers/items/{id}/availability": {
+      "patch": {
+        "tags": [
+          "Hotelier Item"
+        ],
+        "summary": "Book hotelier item",
+        "description": "Use to book hotelier item and reduce its availability by 1",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Id of hotelier item",
+            "required": true,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The hotelier item is booked and its availability is reduced by 1",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "statusCode": {
+                  "type": "integer"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "Updated object id"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "The hotelier item cannot be booked because its availability is zero"
+          },
+          "404": {
+            "description": "Given hotelier item id is not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "HotelierItem": {
+      "type": "object",
+      "required": [
+        "name",
+        "rating",
+        "category",
+        "image",
+        "reputation",
+        "price",
+        "availability",
+        "hotelierId",
+        "location"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "format": "string",
+          "description": "Minimum length 10 characters"
+        },
+        "rating": {
+          "type": "integer",
+          "description": "Between 0 and 5"
+        },
+        "category": {
+          "type": "string",
+          "enum": [
+            "hotel",
+            "alternative",
+            "hostel",
+            "lodge",
+            "resort",
+            "guest-house"
+          ]
+        },
+        "image": {
+          "type": "string",
+          "description": "Valid image URL"
+        },
+        "reputation": {
+          "type": "integer",
+          "description": "Between 0 and 1000"
+        },
+        "price": {
+          "type": "integer"
+        },
+        "availability": {
+          "type": "integer"
+        },
+        "hotelierId": {
+          "type": "integer"
+        },
+        "location": {
+          "$ref": "#/definitions/Location"
+        }
+      }
+    },
+    "Location": {
+      "type": "object",
+      "required": [
+        "city",
+        "state",
+        "country",
+        "zip_code",
+        "address"
+      ],
+      "properties": {
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "country": {
+          "type": "string"
+        },
+        "zip_code": {
+          "type": "integer",
+          "description": "Between 10000 and 99999"
+        },
+        "address": {
+          "type": "integer"
+        }
+      }
+    },
+    "Hotelier": {
+      "type": "object",
+      "required": [
+        "name"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "hotelier_items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/HotelierItem"
+          }
+        }
+      }
+    }
+  }
+}
