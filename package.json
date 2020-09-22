@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development DB_HOST=localhost  nodemon ./bin/www --ignore 'logs/'",
-    "debug": "NODE_ENV=development nodemon --inspect ./bin/www --ignore 'logs/'",
+    "dev": "NODE_ENV=development nodemon ./bin/www --ignore 'logs/'",
+    "local": "NODE_ENV=development DB_HOST=localhost nodemon ./bin/www --ignore 'logs/'",
+    "debug": "NODE_ENV=development DB_HOST=localhost nodemon --inspect ./bin/www --ignore 'logs/'",
     "start": "NODE_ENV=production node ./bin/www",
     "seed": "sequelize-cli db:seed:all",
     "test": "jest"
