@@ -1,19 +1,53 @@
 # Trivago
 
+A booking API for hoteliers. This repo only has the code of the API. The frontend repo is [here](https://github.com/ahmedelazazy/trivago-client).
+
+## Demo
+
+https://trivago.ahmedelazazy.com
+
+## Documentation
+
+https://trivago.ahmedelazazy.com/api-docs
+
 ## Stack
 
 - Express
-- PostgresSQL
+- PostgreSQL
 - Sequelize
+- Swagger
+- Jest
+- Docker
 
-## Development
+## Getting started
+
+- Clone this repo `git clone`
+- Copy `.env.example` to `.env`
+- Update database credentials as needed in `.env`
+- Build and initialize the container
 
 ```
-git clone
-npm i
-npm run dev
+docker-compose up -d --build
 ```
 
-- Create a new Postgres database named `trivago`
-- Update `.env` as needed
-- For first time to run the app, make sure to turn `DB_SYNC` flag to true so that Sequelize can create the database tables
+- To attach the shell of the docker container, run:
+
+```
+docker-compose exec api sh
+```
+
+- From the container terminal, run the seeders to initialize the database with data
+
+```
+npm run seed
+```
+
+- Browse the API documentation on `localhost:8888/api-docs`
+
+### Tests
+
+- From the container terminal, run the tests
+
+```
+npm test
+```

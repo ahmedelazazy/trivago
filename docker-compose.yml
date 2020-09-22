@@ -16,7 +16,7 @@ services:
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
-    command: npm run dev
+    command: npm run start
     environment:
       DB_USERNAME: trivago
       DB_PASSWORD: trivago
