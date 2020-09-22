@@ -1,22 +1,11 @@
 const { param, body } = require("express-validator");
 
-const Category = require("../models/Category");
-const Hotelier = require("../models/Hotelier");
-const HotelierItem = require("../models/HotelierItem");
+const Category = require("../../models/Category");
 
 const hotelierId = [param("id").notEmpty().isInt()];
 
 const hotelierItem = [
-  body("hotelierId")
-    .notEmpty()
-    .isInt()
-    .custom((value) => {
-      return Hotelier.findByPk(value).then((hotelier) => {
-        if (!hotelier) {
-          return Promise.reject("Invalid hotelierId");
-        }
-      });
-    }),
+  body("hotelierId").notEmpty().isInt(),
   body("name").notEmpty().isLength({ min: 10, max: 255 }).not().isIn(["Free", "Offer", "Book", "Website"]),
   body("rating").notEmpty().isInt({ min: 0, max: 5 }),
   body("category").notEmpty().isIn(Category),
@@ -31,18 +20,7 @@ const hotelierItem = [
   body("location.address").notEmpty(),
 ];
 
-const hotelierItemId = [
-  param("id")
-    .notEmpty()
-    .isInt()
-    .custom((value) => {
-      return HotelierItem.findByPk(value).then((item) => {
-        if (!item) {
-          return Promise.reject("Invalid hotelierItemId");
-        }
-      });
-    }),
-];
+const hotelierItemId = [param("id").notEmpty().isInt()];
 
 module.exports = {
   hotelierId,

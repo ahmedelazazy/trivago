@@ -1,13 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
-const hotelierRouter = require("./hotelier");
-const hotelierItemRouter = require("./hotelierItem");
+const hotelierRouter = require("./hoteliers");
+const hotelierItemRouter = require("./hoteliers/items");
 
-router.use("/hotelier", hotelierRouter);
-router.use("/hotelier-item", hotelierItemRouter);
+router.use("/hoteliers", hotelierRouter);
+router.use("/hoteliers/items", hotelierItemRouter);
 
-router.get("/", (req, res) => {
+router.get("/status", (req, res) => {
   return res.sendStatus(200);
 });
 

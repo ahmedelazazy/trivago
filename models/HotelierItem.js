@@ -2,13 +2,14 @@ const { Sequelize, DataTypes } = require("sequelize");
 
 const db = require("../config/db");
 const categories = require("./Category");
+const { ForbiddenWords, Reputation, Colors, Rating } = require("./Constants");
 
 module.exports = db.define("hotelier_item", {
   name: {
     type: DataTypes.TEXT,
     allowNull: false,
     validate: {
-      notContains: ["Free", "Offer", "Book", "Website"],
+      notContains: ForbiddenWords,
       len: [10, 255],
     },
   },
@@ -16,8 +17,8 @@ module.exports = db.define("hotelier_item", {
     type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
-      min: 0,
-      max: 5,
+      min: Rating.min,
+      max: Rating.max,
     },
   },
   category: {
@@ -35,8 +36,8 @@ module.exports = db.define("hotelier_item", {
     type: DataTypes.INTEGER,
     allowNull: false,
     validate: {
-      min: 0,
-      max: 1000,
+      min: Reputation.min,
+      max: Reputation.max,
     },
   },
   price: {
@@ -54,9 +55,9 @@ module.exports = db.define("hotelier_item", {
     get() {
       let reputationVal = this.getDataValue("reputation");
 
-      if (reputationVal <= 500) return "red";
-      else if (reputationVal <= 799) return "yellow";
-      else return "green";
+      if (500 > reputationVal) return Colors.red;
+      else if (799 > reputationVal) return Colors.yellow;
+      else return Colors.green;
     },
   },
 });

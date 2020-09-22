@@ -1,21 +1,21 @@
-const logger = require("../config/winston");
-const HotelierItem = require("../models/HotelierItem");
-const Location = require("../models/Location");
+const HotelierItem = require("../../models/HotelierItem");
+const Location = require("../../models/Location");
+const { NotFound, BadRequest } = require("../../utils/errors");
 
-const getOne = async (req, res) => {
+const getOne = async (req, res, next) => {
   try {
     let dbResult = await HotelierItem.findByPk(req.params.id, { include: ["location", "hotelier"] });
 
-    if (!dbResult) return res.sendStatus(404);
+    if (!dbResult) {
+      throw new NotFound("Hotelier item not found");
+    }
     return res.json(dbResult);
   } catch (error) {
-    logger.error(error.message || error);
-
-    return res.sendStatus(406);
+    next(error);
   }
 };
 
-const add = async (req, res) => {
+const add = async (req, res, next) => {
   try {
     const item = {
       name: req.body.name,
@@ -37,16 +37,23 @@ const add = async (req, res) => {
 
     const addedItem = await HotelierItem.create(item, { include: [Location] });
 
-    return res.sendStatus(201);
+    return res.status(201).json({
+      statusCode: 201,
+      id: addedItem.dataValues.id,
+    });
   } catch (error) {
-    logger.error(error.message || error);
-
-    return res.sendStatus(406);
+    next(error);
   }
 };
 
-const modify = async (req, res) => {
+const modify = async (req, res, next) => {
   try {
+    let dbResult = await HotelierItem.findByPk(req.params.id);
+
+    if (!dbResult) {
+      throw new NotFound("Hotelier item not found");
+    }
+
     const item = {
       name: req.body.name,
       rating: req.body.rating,
@@ -73,38 +80,55 @@ const modify = async (req, res) => {
     dbItem.set(item);
     await dbItem.save();
 
-    return res.sendStatus(200);
+    return res.json({
+      statusCode: 200,
+      id: req.params.id,
+    });
   } catch (error) {
-    logger.error(error.message || error);
-    return res.sendStatus(406);
+    next(error);
   }
 };
 
-const remove = async (req, res) => {
+const remove = async (req, res, next) => {
   try {
     const dbItem = await HotelierItem.findByPk(req.params.id, { include: [Location] });
+
+    if (!dbItem) {
+      throw new NotFound("Hotelier item not found");
+    }
+
     await dbItem.destroy();
 
-    return res.sendStatus(200);
+    return res.json({
+      statusCode: 200,
+      id: req.params.id,
+    });
   } catch (error) {
-    logger.error(error.message || error);
-    return res.sendStatus(406);
+    next(error);
   }
 };
 
-const book = async (req, res) => {
+const book = async (req, res, next) => {
   try {
     const dbItem = await HotelierItem.findByPk(req.params.id);
 
-    if (dbItem.availability <= 0) return res.sendStatus(400);
+    if (!dbItem) {
+      throw new NotFound("Hotelier item not found");
+    }
+
+    if (dbItem.availability <= 0) {
+      throw new BadRequest("No availability");
+    }
 
     dbItem.availability -= 1;
     await dbItem.save({ fields: ["availability"] });
 
-    return res.sendStatus(200);
+    return res.json({
+      statusCode: 200,
+      id: req.params.id,
+    });
   } catch (error) {
-    logger.error(error.message || error);
-    return res.sendStatus(406);
+    next(error);
   }
 };
 
