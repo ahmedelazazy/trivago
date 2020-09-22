@@ -6,7 +6,6 @@ const morgan = require("./config/morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const addRequestId = require("express-request-id")();
-const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 
 const db = require("./config/db");
@@ -35,8 +34,8 @@ app.use("/api/v1", indexRouter);
 app.use(notFound);
 app.use(catchAll);
 
-if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production") {
-  if (process.env.DB_SYNC === "true") {
+if ("development" === process.env.NODE_ENV || "production" === process.env.NODE_ENV) {
+  if ("true" === process.env.DB_SYNC) {
     db.sync({ alter: true })
       .then(() => logger.info("DB Synced"))
       .catch((error) => logger.error(error));

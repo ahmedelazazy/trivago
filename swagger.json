@@ -127,9 +127,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "statusCode": {
-                  "type": "integer"
-                },
                 "id": {
                   "type": "integer",
                   "description": "Updated object id"
@@ -167,9 +164,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "statusCode": {
-                  "type": "integer"
-                },
                 "id": {
                   "type": "integer",
                   "description": "Deleted object id"
@@ -210,9 +204,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "statusCode": {
-                  "type": "integer"
-                },
                 "id": {
                   "type": "integer",
                   "description": "Created object id"
@@ -249,9 +240,6 @@
             "schema": {
               "type": "object",
               "properties": {
-                "statusCode": {
-                  "type": "integer"
-                },
                 "id": {
                   "type": "integer",
                   "description": "Updated object id"

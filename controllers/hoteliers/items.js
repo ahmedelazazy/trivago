@@ -1,3 +1,5 @@
+const { StatusCodes } = require("http-status-codes");
+
 const HotelierItem = require("../../models/HotelierItem");
 const Location = require("../../models/Location");
 const { NotFound, BadRequest } = require("../../utils/errors");
@@ -37,8 +39,7 @@ const add = async (req, res, next) => {
 
     const addedItem = await HotelierItem.create(item, { include: [Location] });
 
-    return res.status(201).json({
-      statusCode: 201,
+    return res.status(StatusCodes.CREATED).json({
       id: addedItem.dataValues.id,
     });
   } catch (error) {
@@ -81,7 +82,6 @@ const modify = async (req, res, next) => {
     await dbItem.save();
 
     return res.json({
-      statusCode: 200,
       id: req.params.id,
     });
   } catch (error) {
@@ -100,7 +100,6 @@ const remove = async (req, res, next) => {
     await dbItem.destroy();
 
     return res.json({
-      statusCode: 200,
       id: req.params.id,
     });
   } catch (error) {
@@ -124,7 +123,6 @@ const book = async (req, res, next) => {
     await dbItem.save({ fields: ["availability"] });
 
     return res.json({
-      statusCode: 200,
       id: req.params.id,
     });
   } catch (error) {
