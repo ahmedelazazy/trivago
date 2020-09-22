@@ -6,14 +6,19 @@ const morgan = require("./config/morgan");
 const helmet = require("helmet");
 const cors = require("cors");
 const addRequestId = require("express-request-id")();
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
 
 const db = require("./config/db");
 const models = require("./models");
+const swaggerOptions = require("./config/swagger");
+const { notFound, catchAll } = require("./middlewares/errorHandler");
 
 const logger = require("./config/winston");
 const indexRouter = require("./routes/index");
 
 const app = express();
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
 
 app.set("trust proxy", true);
 app.use(cors());
@@ -25,7 +30,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static("public"));
 
-app.use("/", indexRouter);
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use("/api/v1", indexRouter);
+
+app.use(notFound);
+app.use(catchAll);
 
 if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "production") {
   if (process.env.DB_SYNC === "true") {

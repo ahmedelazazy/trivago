@@ -1,5 +1,6 @@
-//needed for running the seed data
+require("dotenv").config();
 
+//needed for running the seed data
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,

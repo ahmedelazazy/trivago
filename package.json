@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "dev": "NODE_ENV=development nodemon ./bin/www --ignore 'logs/'",
+    "dev": "NODE_ENV=development DB_HOST=localhost  nodemon ./bin/www --ignore 'logs/'",
     "debug": "NODE_ENV=development nodemon --inspect ./bin/www --ignore 'logs/'",
     "start": "NODE_ENV=production node ./bin/www",
     "seed": "sequelize-cli db:seed:all",
@@ -23,6 +23,8 @@
     "pg": "^8.3.2",
     "pg-hstore": "^2.3.3",
     "sequelize": "^6.3.4",
+    "swagger-jsdoc": "^4.0.0",
+    "swagger-ui-express": "^4.1.4",
     "uuid": "^8.3.0",
     "winston": "^3.3.3"
   },
