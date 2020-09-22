@@ -1,12 +1,12 @@
 const request = require("supertest");
 const faker = require("faker");
 
-const app = require("../app");
-const db = require("../config/db");
-const Hotelier = require("../models/Hotelier");
-const HotelierItem = require("../models/HotelierItem");
-const Category = require("../models/Category");
-const { randomHoterlier } = require("./helper");
+const app = require("../../app");
+const db = require("../../config/db");
+const Hotelier = require("../../models/Hotelier");
+const HotelierItem = require("../../models/HotelierItem");
+const Category = require("../../models/Category");
+const { randomHoterlier } = require("../helper");
 
 beforeEach(async (done) => {
   await db.sync({ force: true });
@@ -18,29 +18,29 @@ afterAll(async (done) => {
   done();
 });
 
-describe("GET /hotelier", () => {
+describe("GET /hoteliers", () => {
   test("It should return 200 when no hoteliers found", async () => {
-    return request(app).get("/hotelier").expect(200);
+    return request(app).get("/api/v1/hoteliers").expect(200);
   });
 
   test("It should return empty array when no hoteliers found", async () => {
-    return request(app).get("/hotelier").expect([]);
+    return request(app).get("/api/v1/hoteliers").expect([]);
   });
 
   test("It should return filled array when 2 hoteliers exists", async () => {
     const data = [randomHoterlier(), randomHoterlier()];
     await Hotelier.bulkCreate(data);
 
-    const response = await request(app).get("/hotelier");
+    const response = await request(app).get("/api/v1/hoteliers");
     expect(response.body).toHaveLength(2);
     expect(response.body[0].name).toEqual(data[0].name);
     expect(response.body[1].name).toEqual(data[1].name);
   });
 });
 
-describe("GET /hotelier/:id", () => {
+describe("GET /hoteliers/:id", () => {
   test("It should return 404 when hotelier not found", async () => {
-    return request(app).get("/hotelier/1").expect(404);
+    return request(app).get("/api/v1/hoteliers/1").expect(404);
   });
 
   test("It should return hotelier when it exists", async () => {
@@ -62,7 +62,7 @@ describe("GET /hotelier/:id", () => {
     ];
     await Hotelier.bulkCreate(data, { include: [HotelierItem] });
 
-    const response = await request(app).get("/hotelier/1");
+    const response = await request(app).get("/api/v1/hoteliers/1");
 
     expect(response.body.name).toEqual(data[0].name);
     expect(response.body.hotelier_items).toHaveLength(1);

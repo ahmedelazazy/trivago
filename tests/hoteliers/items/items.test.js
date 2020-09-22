@@ -1,13 +1,13 @@
 const request = require("supertest");
 const faker = require("faker");
 
-const app = require("../app");
-const db = require("../config/db");
-const Hotelier = require("../models/Hotelier");
-const HotelierItem = require("../models/HotelierItem");
-const Location = require("../models/Location");
-const Category = require("../models/Category");
-const { randomHoterlier, randomHoterlierItem } = require("./helper");
+const app = require("../../../app");
+const db = require("../../../config/db");
+const Hotelier = require("../../../models/Hotelier");
+const HotelierItem = require("../../../models/HotelierItem");
+const Location = require("../../../models/Location");
+const Category = require("../../../models/Category");
+const { randomHoterlier, randomHoterlierItem } = require("../../helper");
 
 beforeEach(async (done) => {
   await db.sync({ force: true });
@@ -19,9 +19,9 @@ afterAll(async (done) => {
   done();
 });
 
-describe("GET /hotelier-item/:id", () => {
+describe("GET /hoteliers/items/:id", () => {
   test("It should return 404 when hotelier item not found", async () => {
-    return request(app).get("/hotelier-item/1").expect(404);
+    return request(app).get("/api/v1/hoteliers/items/1").expect(404);
   });
 
   test("It should return hotelier when item it exists", async () => {
@@ -29,7 +29,7 @@ describe("GET /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    const response = await request(app).get("/hotelier-item/1");
+    const response = await request(app).get("/api/v1/hoteliers/items/1");
 
     expect(response.body.name).toEqual(data.name);
     expect(response.body.rating).toEqual(data.rating);
@@ -45,13 +45,13 @@ describe("GET /hotelier-item/:id", () => {
   });
 });
 
-describe("POST /hotelier-item/:id", () => {
+describe("POST /hoteliers/items/:id", () => {
   test("It should return 201 when data is valid and hotelier item is created", async () => {
     const data = randomHoterlierItem();
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    return request(app).post("/hotelier-item").send(data).expect(201);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(201);
   });
 
   test("It should create hotelier item when data is valid", async () => {
@@ -59,7 +59,7 @@ describe("POST /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    const response = await request(app).post("/hotelier-item").send(data);
+    const response = await request(app).post("/api/v1/hoteliers/items").send(data);
 
     const hotelierItem = (await HotelierItem.findByPk(1, { include: [Location] })).dataValues;
 
@@ -81,7 +81,7 @@ describe("POST /hotelier-item/:id", () => {
     data.name = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when rating is null", async () => {
@@ -89,7 +89,7 @@ describe("POST /hotelier-item/:id", () => {
     data.rating = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when category is null", async () => {
@@ -97,7 +97,7 @@ describe("POST /hotelier-item/:id", () => {
     data.category = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when image is null", async () => {
@@ -105,7 +105,7 @@ describe("POST /hotelier-item/:id", () => {
     data.image = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when reputation is null", async () => {
@@ -113,7 +113,7 @@ describe("POST /hotelier-item/:id", () => {
     data.reputation = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when price is null", async () => {
@@ -121,7 +121,7 @@ describe("POST /hotelier-item/:id", () => {
     data.price = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when availability is null", async () => {
@@ -129,7 +129,7 @@ describe("POST /hotelier-item/:id", () => {
     data.availability = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when location is null", async () => {
@@ -137,7 +137,7 @@ describe("POST /hotelier-item/:id", () => {
     data.location = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when city is null", async () => {
@@ -145,7 +145,7 @@ describe("POST /hotelier-item/:id", () => {
     data.location.city = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when state is null", async () => {
@@ -153,7 +153,7 @@ describe("POST /hotelier-item/:id", () => {
     data.location.state = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when country is null", async () => {
@@ -161,7 +161,7 @@ describe("POST /hotelier-item/:id", () => {
     data.location.country = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when zip_code is null", async () => {
@@ -169,7 +169,7 @@ describe("POST /hotelier-item/:id", () => {
     data.location.zip_code = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 
   test("It should return 400 when address is null", async () => {
@@ -177,17 +177,17 @@ describe("POST /hotelier-item/:id", () => {
     data.location.address = null;
     await Hotelier.create(randomHoterlier());
 
-    return request(app).post("/hotelier-item").send(data).expect(400);
+    return request(app).post("/api/v1/hoteliers/items").send(data).expect(400);
   });
 });
 
-describe("PUT /hotelier-item/:id", () => {
+describe("PUT /hoteliers/items/:id", () => {
   test("It should return 200 when data is valid and hotelier item is modified", async () => {
     const data = randomHoterlierItem();
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    return request(app).put("/hotelier-item/1").send(data).expect(200);
+    return request(app).put("/api/v1/hoteliers/items/1").send(data).expect(200);
   });
 
   test("It should update hotelier item when data is valid", async () => {
@@ -197,7 +197,7 @@ describe("PUT /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    const response = await request(app).put("/hotelier-item/1").send(updatedData);
+    const response = await request(app).put("/api/v1/hoteliers/items/1").send(updatedData);
 
     const hotelierItem = (await HotelierItem.findByPk(1, { include: [Location] })).dataValues;
 
@@ -221,7 +221,7 @@ describe("PUT /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    await request(app).put("/hotelier-item/100").send(updatedData).expect(400);
+    await request(app).put("/api/v1/hoteliers/items/100").send(updatedData).expect(404);
   });
 
   test("It should return 400 when given data is invalid", async () => {
@@ -231,17 +231,17 @@ describe("PUT /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    await request(app).put("/hotelier-item/1").send(updatedData).expect(400);
+    await request(app).put("/api/v1/hoteliers/items/1").send(updatedData).expect(400);
   });
 });
 
-describe("DELETE /hotelier-item/:id", () => {
+describe("DELETE /hoteliers/items/:id", () => {
   test("It should return 200 when data is valid and hotelier item is deleted", async () => {
     const data = randomHoterlierItem();
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    return request(app).delete("/hotelier-item/1").expect(200);
+    return request(app).delete("/api/v1/hoteliers/items/1").expect(200);
   });
 
   test("It should delete hotelier item when data is valid", async () => {
@@ -249,7 +249,7 @@ describe("DELETE /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    const response = await request(app).delete("/hotelier-item/1");
+    const response = await request(app).delete("/api/v1/hoteliers/items/1");
 
     const hotelierItem = await HotelierItem.findByPk(1, { include: [Location] });
 
@@ -261,17 +261,17 @@ describe("DELETE /hotelier-item/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    await request(app).delete("/hotelier-item/100").expect(400);
+    await request(app).delete("/api/v1/hoteliers/items/100").expect(404);
   });
 });
 
-describe("put /hotelier-item/book/:id", () => {
+describe("PATCH /hoteliers/items/book/:id", () => {
   test("It should return 200 when data is valid and availability is updated", async () => {
     const data = randomHoterlierItem();
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    return request(app).put("/hotelier-item/book/1").expect(200);
+    return request(app).patch("/api/v1/hoteliers/items/1/availability").expect(200);
   });
 
   test("It should decrease the availability by 1", async () => {
@@ -279,7 +279,7 @@ describe("put /hotelier-item/book/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    const response = await request(app).put("/hotelier-item/book/1");
+    const response = await request(app).patch("/api/v1/hoteliers/items/1/availability");
 
     const hotelierItem = (await HotelierItem.findByPk(1)).dataValues;
 
@@ -291,7 +291,7 @@ describe("put /hotelier-item/book/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    await request(app).put("/hotelier-item/book/100").expect(400);
+    await request(app).patch("/api/v1/hoteliers/items/100/availability").expect(404);
   });
 
   test("It should return 400 when availability is 0", async () => {
@@ -300,6 +300,6 @@ describe("put /hotelier-item/book/:id", () => {
     await Hotelier.create(randomHoterlier());
     await HotelierItem.create(data, { include: [Location] });
 
-    await request(app).put("/hotelier-item/book/1").expect(400);
+    await request(app).patch("/api/v1/hoteliers/items/1/availability").expect(400);
   });
 });
