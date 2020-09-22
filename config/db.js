@@ -13,7 +13,7 @@ if (process.env.NODE_ENV === "development" || process.env.NODE_ENV === "producti
       acquire: 30000,
       idle: 10000,
     },
-    logging: process.env.DB_LOGGING === "true" ? console.log : false,
+    logging: process.env.DB_LOGGING === "true" ? console.log : null,
   });
 } else if (process.env.NODE_ENV === "test") {
   db = new Sequelize("sqlite::memory:", {
