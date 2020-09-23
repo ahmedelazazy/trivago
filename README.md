@@ -23,6 +23,12 @@ https://trivago-api.ahmedelazazy.com
 
 - Clone this repo `git clone`
 - Copy `.env.example` to `.env`
+
+```
+cd trivago
+cp .env.example .env
+```
+
 - Update database credentials as needed in `.env`
 - Build and initialize the container
 
@@ -42,7 +48,7 @@ docker-compose exec api sh
 npm run seed
 ```
 
-- Browse the API documentation on `localhost:8888`
+- Browse the API documentation on [localhost:8888](localhost:8888)
 
 ### Tests
 
