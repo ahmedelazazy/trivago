@@ -338,7 +338,7 @@
           "description": "Between 10000 and 99999"
         },
         "address": {
-          "type": "integer"
+          "type": "string"
         }
       }
     },

@@ -1,12 +1,16 @@
 const { param, body } = require("express-validator");
 
 const Category = require("../../models/Category");
+const Constants = require("../../models/Constants");
 
 const hotelierId = [param("id").notEmpty().isInt()];
 
 const hotelierItem = [
   body("hotelierId").notEmpty().isInt(),
-  body("name").notEmpty().isLength({ min: 10, max: 255 }).not().isIn(["Free", "Offer", "Book", "Website"]),
+  body("name")
+    .notEmpty()
+    .isLength({ min: 10, max: 255 })
+    .custom((val) => !Constants.ForbiddenWords.some((word) => val.toLowerCase().includes(word.toLowerCase()))),
   body("rating").notEmpty().isInt({ min: 0, max: 5 }),
   body("category").notEmpty().isIn(Category),
   body("image").notEmpty().isURL(),
