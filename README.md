@@ -4,11 +4,11 @@ A booking API for hoteliers. This repo only has the code of the API. The fronten
 
 ## Demo
 
-https://trivago.ahmedelazazy.com
+https://trivago-api.ahmedelazazy.com
 
 ## Documentation
 
-https://trivago.ahmedelazazy.com/api-docs
+https://trivago-api.ahmedelazazy.com/api-docs
 
 ## Stack
 
