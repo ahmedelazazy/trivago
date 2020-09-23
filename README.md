@@ -42,7 +42,7 @@ docker-compose exec api sh
 npm run seed
 ```
 
-- Browse the API documentation on `localhost:8888/api-docs`
+- Browse the API documentation on `localhost:8888`
 
 ### Tests
 
