@@ -2,14 +2,6 @@
 
 A booking API for hoteliers. This repo only has the code of the API. The frontend repo is [here](https://github.com/ahmedelazazy/trivago-client).
 
-## Demo
-
-https://trivago.ahmedelazazy.com
-
-## Documentation
-
-https://trivago-api.ahmedelazazy.com
-
 ## Stack
 
 - Express
